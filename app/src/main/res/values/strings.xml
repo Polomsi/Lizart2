@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Lizart2</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_inicia_sesion">IniciaSesion</string>
+    <string name="inicio_sesion">Inicia sesión</string>
+    <string name="tag_nom_usu">Nombre de usuario</string>
+    <string name="tag_pass_usu">Contraseña</string>
+</resources>

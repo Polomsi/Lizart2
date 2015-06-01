@@ -1,6 +1,7 @@
 package com.franciscopolov.lizart.lizart2;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -38,12 +39,13 @@ public class Lizart extends MaterialNavigationDrawer {
 
         MaterialMenu menu = new MaterialMenu();
 
+        Intent i = new Intent(Lizart.this, Configuracion.class);
+
         // first section is loaded
         MaterialSection section1 = this.newSection("Inicio", this.getResources().getDrawable(R.drawable.ic_arrow_drop_down_white_24dp), new FragmentIndex(), false, menu);
         MaterialSection section2 = this.newSection("Subir fotografía", this.getResources().getDrawable(R.drawable.ic_arrow_drop_down_white_24dp), new FragmentIndex(), false, menu);
         MaterialSection section3 = this.newSection("Búsqueda de usuarios", this.getResources().getDrawable(R.drawable.ic_arrow_drop_down_white_24dp), new FragmentIndex(), false, menu);
-        MaterialSection section4 = this.newSection("Configuración", this.getResources().getDrawable(R.drawable.ic_arrow_drop_down_white_24dp), new FragmentIndex(), false, menu);
-
+        MaterialSection section4 = this.newSection("Configuración", this.getResources().getDrawable(R.drawable.ic_arrow_drop_down_white_24dp), i, false, menu);
 
         // create icon
 

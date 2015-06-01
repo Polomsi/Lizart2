@@ -6,4 +6,7 @@
     <string name="inicio_sesion">Inicia sesión</string>
     <string name="tag_nom_usu">Nombre de usuario</string>
     <string name="tag_pass_usu">Contraseña</string>
+    <string name="title_activity_configuracion">Configuracion</string>
+
+    <string name="hello_world">Hello world!</string>
 </resources>

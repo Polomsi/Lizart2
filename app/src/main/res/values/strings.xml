@@ -9,4 +9,17 @@
     <string name="title_activity_configuracion">Configuracion</string>
 
     <string name="hello_world">Hello world!</string>
+    <string name="tag_email">Email</string>
+    <string name="tag_descripcion">Descripción</string>
+    <string name="tag_sacaFoto">Sacar foto</string>
+    <string name="tag_botonActualizaTodo">Actualizar información general</string>
+    <string name="tag_repite_pass">Repetir contraseña</string>
+    <string name="tag_actualiza_pass">Actualizar contraseña</string>
+    <string name="tag_cerrar_sesion">Cerrar sesión</string>
+    <string name="tag_eliminar_cuenta">Eliminar cuenta</string>
+    <string name="title_activity_main">MainActivity</string>
+
+    <string name="title_section1">Section 1</string>
+    <string name="title_section2">Section 2</string>
+    <string name="title_section3">Section 3</string>
 </resources>

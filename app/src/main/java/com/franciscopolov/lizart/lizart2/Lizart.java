@@ -10,7 +10,10 @@ import android.graphics.Color;
 import android.graphics.ColorFilter;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.Handler;
+import android.provider.Settings;
 import android.support.v4.app.Fragment;
+import android.widget.Toast;
 
 import com.amulyakhare.textdrawable.TextDrawable;
 
@@ -54,6 +57,30 @@ public class Lizart extends MaterialNavigationDrawer {
         // add head Item (menu will be loaded automatically)
         //MaterialHeadItem headItem1 = new MaterialHeadItem(this, "ITEM", "Subitem", R.drawable.ic_launcher, R.drawable.mat5, menu);
         this.addHeadItem(headItem);
+    }
+    private Boolean exit = false;
+    @Override
+    public void onBackPressed() {
+        if (exit) {
+            Intent intent = new Intent(Intent.ACTION_MAIN);
+            intent.addCategory(Intent.CATEGORY_HOME);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);//***Change Here***
+            startActivity(intent);
+            finish();
+            System.exit(0);
+        } else {
+            Toast.makeText(this, "Presione otra vez para salir de Lizart",
+                    Toast.LENGTH_SHORT).show();
+            exit = true;
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    exit = false;
+                }
+            }, 3 * 1000);
+
+        }
+
     }
 
 }

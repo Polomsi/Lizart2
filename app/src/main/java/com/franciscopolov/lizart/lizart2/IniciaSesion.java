@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
+import android.os.Handler;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -47,27 +48,31 @@ public class IniciaSesion extends ActionBarActivity {
         setContentView(R.layout.activity_inicia_sesion);
         setToolbar();
         preferencias=getSharedPreferences("preferenciasLizart", Context.MODE_PRIVATE);
-        btnIniciaSesion = (Button) findViewById(R.id.iniciasesion);
-        etNombre = (EditText) findViewById(R.id.nomUsu);
-        etPass = (EditText) findViewById(R.id.passUsu);
-        btnIniciaSesion.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (tieneConexion()) {
-                    nomUsuario = etNombre.getText().toString();
-                    password = etPass.getText().toString();
-                    hebraLogin logearse = new hebraLogin();
-                    logearse.execute();
-                } else {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(IniciaSesion.this);
-                    builder.setTitle("Importante");
-                    builder.setMessage("El dispositivo no tiene conexión a internet");
-                    builder.setPositiveButton("OK", null);
-                    builder.create();
-                    builder.show();
+        if((preferencias.getInt("id",-1))!=-1){
+            Intent intent = new Intent(IniciaSesion.this, Lizart.class);
+            startActivity(intent);
+        }
+            btnIniciaSesion = (Button) findViewById(R.id.iniciasesion);
+            etNombre = (EditText) findViewById(R.id.nomUsu);
+            etPass = (EditText) findViewById(R.id.passUsu);
+            btnIniciaSesion.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (tieneConexion()) {
+                        nomUsuario = etNombre.getText().toString();
+                        password = etPass.getText().toString();
+                        hebraLogin logearse = new hebraLogin();
+                        logearse.execute();
+                    } else {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(IniciaSesion.this);
+                        builder.setTitle("Importante");
+                        builder.setMessage("El dispositivo no tiene conexión a internet");
+                        builder.setPositiveButton("OK", null);
+                        builder.create();
+                        builder.show();
+                    }
                 }
-            }
-        });
+            });
     }
 
     public void setToolbar(){
@@ -164,4 +169,13 @@ public class IniciaSesion extends ActionBarActivity {
         }
 
     }
+    @Override
+    public void onResume() {
+        super.onResume();  // Always call the superclass method first
+        if((preferencias.getInt("id",-1))!=-1){
+            Intent intent = new Intent(IniciaSesion.this, Lizart.class);
+            startActivity(intent);
+        }
+    }
+
 }

@@ -112,7 +112,7 @@ public class IniciaSesion extends ActionBarActivity {
         @Override
         protected String doInBackground(Void... voids) {
             HttpClient cliente = new DefaultHttpClient();
-            HttpPost metodo = new HttpPost("http://lizart.franciscopolov.com/json/sesion.php");
+            HttpPost metodo = new HttpPost("http://lizart.franciscopolov.com/json/usuario.php");
             String respuesta = null;
             try {
                 List<NameValuePair> parametros = new ArrayList<NameValuePair>();

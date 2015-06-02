@@ -150,6 +150,7 @@ public class Configuracion  extends ActionBarActivity{
         protected void onPostExecute(String mensaje) {
 
             dialog.hide();
+            dialog.dismiss();
             dialog=null;
             try{
                 JSONObject obj = new JSONObject(mensaje);

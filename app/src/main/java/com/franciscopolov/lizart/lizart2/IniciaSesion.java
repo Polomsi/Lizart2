@@ -133,6 +133,7 @@ public class IniciaSesion extends ActionBarActivity {
         protected void onPostExecute(String mensaje) {
 
             dialog.hide();
+            dialog.dismiss();
             try{
                 JSONObject obj = new JSONObject(mensaje);
 

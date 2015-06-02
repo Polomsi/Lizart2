@@ -36,6 +36,10 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.franciscopolov.lizart.lizart2.Lizart" />
         </activity>
+        <activity
+            android:name=".configuracionUIL"
+            android:label="@string/title_activity_configuracion_uil" >
+        </activity>
     </application>
 
 </manifest>

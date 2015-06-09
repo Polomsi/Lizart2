@@ -13,7 +13,8 @@
         android:theme="@style/AppTheme" >
         <activity
             android:name=".Splash"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            android:noHistory="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -22,7 +23,8 @@
         </activity>
         <activity
             android:name=".IniciaSesion"
-            android:label="@string/title_activity_inicia_sesion" >
+            android:label="@string/title_activity_inicia_sesion"
+            android:noHistory="true">
         </activity>
         <activity
             android:name=".Lizart"
@@ -36,10 +38,10 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.franciscopolov.lizart.lizart2.Lizart" />
         </activity>
-        <activity
+        <!--<activity
             android:name=".configuracionUIL"
             android:label="@string/title_activity_configuracion_uil" >
-        </activity>
+        </activity>-->
         <activity
             android:name=".FotoEntera"
             android:label="@string/title_activity_foto_entera"

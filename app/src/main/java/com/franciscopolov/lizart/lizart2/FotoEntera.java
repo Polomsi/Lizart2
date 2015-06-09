@@ -9,7 +9,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 
 
 public class FotoEntera extends ActionBarActivity {
-    ImageView imagen;
+    ImageView imagen; 
     private ImageLoader imageLoader;
     private Fotografia foto;
     @Override

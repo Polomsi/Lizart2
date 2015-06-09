@@ -40,6 +40,14 @@
             android:name=".configuracionUIL"
             android:label="@string/title_activity_configuracion_uil" >
         </activity>
+        <activity
+            android:name=".FotoEntera"
+            android:label="@string/title_activity_foto_entera"
+            android:parentActivityName=".Lizart" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.franciscopolov.lizart.lizart2.Lizart" />
+        </activity>
     </application>
 
 </manifest>

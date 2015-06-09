@@ -49,6 +49,7 @@ public class FragmentIndex extends Fragment {
     DisplayImageOptions options;
     private ImageLoader imageLoader;
     ArrayList<String> imagenes;
+    ArrayList<Fotografia> array_imagenes;
     ProgressDialog dialog;
     GridView gridview;
     @Override
@@ -66,6 +67,7 @@ public class FragmentIndex extends Fragment {
         View v = inflater.inflate(R.layout.fragment_fragment_index, container, false);
         imageLoader = ImageLoader.getInstance();
         imagenes=new ArrayList<String>();
+        array_imagenes=new ArrayList<Fotografia>();
         preferencias=getActivity().getSharedPreferences("preferenciasLizart", Context.MODE_PRIVATE);
         options = new DisplayImageOptions.Builder()
                 .showImageOnLoading(R.drawable.ic_launcher)
@@ -82,11 +84,16 @@ public class FragmentIndex extends Fragment {
         gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
                 gridview.getAdapter().getItem(position);
-//                Intent intent = new Intent(getActivity(), ActivityTwo.class);
-//                intent.putExtra("position", position);
-//                startActivity(intent);
+                Intent intent = new Intent(getActivity(), FotoEntera.class);
+                intent.putExtra("id", array_imagenes.get(position).getId());
+                intent.putExtra("ISO", array_imagenes.get(position).getISO());
+                intent.putExtra("vel_obturacion", array_imagenes.get(position).getVel_obturacion());
+                intent.putExtra("titulo", array_imagenes.get(position).getTitulo());
+                intent.putExtra("id_usuario", array_imagenes.get(position).getId_usuario());
+                intent.putExtra("fecha", array_imagenes.get(position).getFecha());
+                intent.putExtra("url", array_imagenes.get(position).getUrl());
+                startActivity(intent);
             }
         });
 
@@ -101,9 +108,9 @@ public class FragmentIndex extends Fragment {
     //    our custom adapter
     private class ImageAdapter extends BaseAdapter {
         private LayoutInflater inflater;
-        private ArrayList<String> imagenesMostrar;
+        private ArrayList<Fotografia> imagenesMostrar;
 
-        public ImageAdapter(Context context, ArrayList<String> imagenes){
+        public ImageAdapter(Context context, ArrayList<Fotografia> imagenes){
             inflater = LayoutInflater.from(context);
             imagenesMostrar=imagenes;
         }
@@ -140,9 +147,7 @@ public class FragmentIndex extends Fragment {
 //                we've got a view
                 gridViewImageHolder = (ViewHolder) view.getTag();
             }
-            imageLoader.displayImage(imagenesMostrar.get(position)
-                    ,gridViewImageHolder.imageView
-                    ,options);
+            imageLoader.displayImage(imagenesMostrar.get(position).getUrl(),gridViewImageHolder.imageView, options);
 
             return view;
         }
@@ -187,14 +192,20 @@ public class FragmentIndex extends Fragment {
                 JSONArray array = new JSONArray(mensaje);
 
                 if(array!=null) {
-                    //if (obj.getInt("error") == 0) {
                         for(int i=0; i<array.length();i++) {
-                            imagenes.add(array.getJSONObject(i).getString("url"));
+                            Fotografia imagen = new Fotografia();
+                            imagen.setId(array.getJSONObject(i).getInt("ID"));
+                            imagen.setApertura(array.getJSONObject(i).getString("apertura"));
+                            imagen.setFecha(array.getJSONObject(i).getString("fecha"));
+                            imagen.setISO(array.getJSONObject(i).getString("ISO"));
+                            imagen.setUrl(array.getJSONObject(i).getString("url"));
+                            imagen.setVel_obturacion(array.getJSONObject(i).getString("vel_obturacion"));
+                            imagen.setId_usuario(array.getJSONObject(i).getInt("id_usuario"));
+                            imagen.setTitulo(array.getJSONObject(i).getString("titulo"));
+                            array_imagenes.add(imagen);
+                            //imagenes.add(array.getJSONObject(i).getString("url"));
                         }
-                        gridview.setAdapter(new ImageAdapter(getActivity(), imagenes));
-                        /*SharedPreferences.Editor editor = preferencias.edit();
-                        editor.putString("password", pass);
-                        editor.commit();*/
+                        gridview.setAdapter(new ImageAdapter(getActivity(), array_imagenes));
                 } else {
                     Toast.makeText(getActivity(), "Ocurrió un error", Toast.LENGTH_SHORT).show();
                 }

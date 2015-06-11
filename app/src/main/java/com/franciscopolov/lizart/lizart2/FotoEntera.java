@@ -10,6 +10,8 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -32,15 +34,17 @@ import java.util.List;
 
 
 public class FotoEntera extends ActionBarActivity {
+    ImageButton like;
     ImageView imagen;
     private ImageLoader imageLoader;
-    private Fotografia foto;
+    Fotografia foto;
     SharedPreferences preferencias;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_foto_entera);
         foto=new Fotografia();
+        like = (ImageButton) findViewById(R.id.imageButton);
         Bundle bundle = getIntent().getExtras();
         preferencias=getSharedPreferences("preferenciasLizart", Context.MODE_PRIVATE);
         foto.setId(bundle.getInt("id"));
@@ -58,6 +62,20 @@ public class FotoEntera extends ActionBarActivity {
         imageLoader=ImageLoader.getInstance();
         imagen = (ImageView) findViewById(R.id.imagen);
         imageLoader.displayImage(foto.getUrl(),imagen);
+
+        like.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(like.getDrawable().getConstantState()==getResources().getDrawable(R.mipmap.ic_favorite_border_white_36dp).getConstantState()){
+                    hebraLike hl = new hebraLike();
+                    hl.execute("megusta");
+                }
+                else if(like.getDrawable().getConstantState()==getResources().getDrawable(R.mipmap.ic_like_36dp).getConstantState()) {
+                    hebraLike hl = new hebraLike();
+                    hl.execute("nomegusta");
+                }
+            }
+        });
 
     }
 
@@ -103,7 +121,7 @@ public class FotoEntera extends ActionBarActivity {
             HttpPost metodo = new HttpPost("http://lizart.franciscopolov.com/json/fotografias.php");
             String respuesta = null;
             Integer id = (Integer) preferencias.getInt("id", 0);
-            Integer id_foto = foto.getId();
+            Integer id_foto = (Integer) foto.getId();
             try {
                 List<NameValuePair> parametros = new ArrayList<NameValuePair>();
                 parametros.add(new BasicNameValuePair("consultaLike", "consultaLike"));
@@ -121,26 +139,89 @@ public class FotoEntera extends ActionBarActivity {
         }
         @Override
         protected void onPostExecute(String mensaje) {
-
             dialog.hide();
             dialog.dismiss();
             dialog=null;
-            Toast.makeText(getApplicationContext(), mensaje, Toast.LENGTH_LONG).show();
-            /*try{
+            try{
+                JSONObject obj = new JSONObject(mensaje);
+
+                if(obj!=null) {
+                    if (obj.getInt("like") == 0) {
+                        like.setImageDrawable(getResources().getDrawable(R.mipmap.ic_favorite_border_white_36dp));
+
+                    } else {
+
+                        like.setImageDrawable(getResources().getDrawable(R.mipmap.ic_like_36dp));
+
+                    }
+                }
+            }catch(Throwable t){
+                Toast.makeText(getApplicationContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        }
+
+    }
+    private class hebraLike extends AsyncTask<String, Void, String> {
+        //AlertDialog dialog;
+        @Override
+        protected void onPreExecute(){
+            /*dialog = ProgressDialog.show(FotoEntera.this, "",
+                    "Cargando. Por favor, espere...", true);*/
+        }
+        @Override
+        protected String doInBackground(String... strings) {
+            HttpClient cliente = new DefaultHttpClient();
+            HttpPost metodo = new HttpPost("http://lizart.franciscopolov.com/json/fotografias.php");
+            String respuesta = null;
+            Integer id = (Integer) preferencias.getInt("id", 0);
+            Integer id_foto = (Integer) foto.getId();
+            try {
+                List<NameValuePair> parametros = new ArrayList<NameValuePair>();
+                parametros.add(new BasicNameValuePair("like", "like"));
+                if(strings[0].equals("megusta")){
+                    parametros.add(new BasicNameValuePair("megusta", "megusta"));
+                }
+                else if(strings[0].equals("nomegusta")){
+                    parametros.add(new BasicNameValuePair("nomegusta", "nomegusta"));
+                }
+                parametros.add(new BasicNameValuePair("id_foto", id_foto.toString()));
+                parametros.add(new BasicNameValuePair("id_usuario", id.toString()));
+                metodo.setEntity(new UrlEncodedFormEntity(parametros));
+                HttpResponse response = cliente.execute(metodo);
+                respuesta = EntityUtils.toString(response.getEntity());
+            } catch (ClientProtocolException e) {
+                Toast.makeText(FotoEntera.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+            } catch (IOException e) {
+                Toast.makeText(FotoEntera.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+            return respuesta;
+        }
+        @Override
+        protected void onPostExecute(String mensaje) {
+            /*dialog.hide();
+            dialog.dismiss();
+            dialog=null;*/
+            try{
                 JSONObject obj = new JSONObject(mensaje);
 
                 if(obj!=null) {
                     if (obj.getInt("error") == 0) {
-                        SharedPreferences.Editor editor = preferencias.edit();
-                        editor.putString("password", pass);
-                        editor.commit();
+                        if(like.getDrawable().getConstantState()==getResources().getDrawable(R.mipmap.ic_favorite_border_white_36dp).getConstantState()){
+                            like.setImageDrawable(getResources().getDrawable(R.mipmap.ic_like_36dp));
+                        }
+                        else if(like.getDrawable().getConstantState()==getResources().getDrawable(R.mipmap.ic_like_36dp).getConstantState()) {
+                            like.setImageDrawable(getResources().getDrawable(R.mipmap.ic_favorite_border_white_36dp));
+                        }
+
                     } else {
-                        Toast.makeText(Configuracion.this, obj.getString("aclaracion"), Toast.LENGTH_SHORT).show();
+
+                        Toast.makeText(getApplicationContext(), mensaje, Toast.LENGTH_LONG).show();
+
                     }
                 }
             }catch(Throwable t){
-                Toast.makeText(Configuracion.this, t.getMessage(), Toast.LENGTH_SHORT).show();
-            }*/
+                Toast.makeText(getApplicationContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
         }
 
     }

@@ -29,6 +29,7 @@
             android:layout_height="36dp"
             android:id="@+id/imageButton"
             android:layout_below="@+id/imagen"
+            android:background="@null"
             />
     </LinearLayout>
 

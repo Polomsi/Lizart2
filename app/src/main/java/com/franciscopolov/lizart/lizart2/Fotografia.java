@@ -11,7 +11,8 @@ public class Fotografia {
     private String url;
 
     public Fotografia() {
-        this.id=null;
+        this.id=0;
+        this.id_usuario=0;
         this.titulo="";
         this.ISO="";
         this.vel_obturacion="";

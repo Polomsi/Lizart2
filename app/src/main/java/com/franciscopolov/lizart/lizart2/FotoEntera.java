@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.inputmethodservice.Keyboard;
 import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -11,8 +12,12 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ListAdapter;
+import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -26,6 +31,7 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.IOException;
@@ -39,12 +45,19 @@ public class FotoEntera extends ActionBarActivity {
     private ImageLoader imageLoader;
     Fotografia foto;
     SharedPreferences preferencias;
+    ArrayList<Comentario> comentarios;
+    ListView listaComentarios;
+    TextView iso;
+    TextView obturacion;
+    TextView apertura;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_foto_entera);
         foto=new Fotografia();
+        comentarios=new ArrayList<Comentario>();
         like = (ImageButton) findViewById(R.id.imageButton);
+        listaComentarios = (ListView) findViewById(R.id.listaComentarios);
         Bundle bundle = getIntent().getExtras();
         preferencias=getSharedPreferences("preferenciasLizart", Context.MODE_PRIVATE);
         foto.setId(bundle.getInt("id"));
@@ -58,28 +71,33 @@ public class FotoEntera extends ActionBarActivity {
         setToolbar();
         hebraCompruebaLike hcl = new hebraCompruebaLike();
         hcl.execute();
+        hebraConsultaComentarios hcc = new hebraConsultaComentarios();
+        hcc.execute();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         imageLoader=ImageLoader.getInstance();
         imagen = (ImageView) findViewById(R.id.imagen);
-        imageLoader.displayImage(foto.getUrl(),imagen);
-
+        imageLoader.displayImage(foto.getUrl(), imagen);
         like.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(like.getDrawable().getConstantState()==getResources().getDrawable(R.mipmap.ic_favorite_border_white_36dp).getConstantState()){
+                if (like.getDrawable().getConstantState() == getResources().getDrawable(R.mipmap.ic_favorite_border_white_36dp).getConstantState()) {
                     hebraLike hl = new hebraLike();
                     hl.execute("megusta");
-                }
-                else if(like.getDrawable().getConstantState()==getResources().getDrawable(R.mipmap.ic_like_36dp).getConstantState()) {
+                } else if (like.getDrawable().getConstantState() == getResources().getDrawable(R.mipmap.ic_like_36dp).getConstantState()) {
                     hebraLike hl = new hebraLike();
                     hl.execute("nomegusta");
                 }
             }
         });
+        iso = (TextView) findViewById(R.id.iso);
+        obturacion = (TextView) findViewById(R.id.obturacion);
+        apertura = (TextView) findViewById(R.id.apertura);
+        iso.setText(foto.getISO());
+        obturacion.setText(foto.getVel_obturacion());
+        apertura.setText(foto.getApertura());
+
 
     }
-
-
 
     public void setToolbar(){
         Toolbar toolbar = (Toolbar) findViewById(R.id.miBarra);
@@ -224,5 +242,113 @@ public class FotoEntera extends ActionBarActivity {
             }
         }
 
+    }
+    private class hebraConsultaComentarios extends AsyncTask<Void, Void, String> {
+        //AlertDialog dialog;
+        @Override
+        protected void onPreExecute(){
+            /*dialog = ProgressDialog.show(FotoEntera.this, "",
+                    "Cargando. Por favor, espere...", true);*/
+        }
+        @Override
+        protected String doInBackground(Void... strings) {
+            HttpClient cliente = new DefaultHttpClient();
+            HttpPost metodo = new HttpPost("http://lizart.franciscopolov.com/json/fotografias.php");
+            String respuesta = null;
+            //Integer id = (Integer) preferencias.getInt("id", 0);
+            Integer id_foto = (Integer) foto.getId();
+            try {
+                List<NameValuePair> parametros = new ArrayList<NameValuePair>();
+                parametros.add(new BasicNameValuePair("consultaComentarios", "consultaComentarios"));
+                /*if(strings[0].equals("megusta")){
+                    parametros.add(new BasicNameValuePair("megusta", "megusta"));
+                }
+                else if(strings[0].equals("nomegusta")){
+                    parametros.add(new BasicNameValuePair("nomegusta", "nomegusta"));
+                }*/
+                parametros.add(new BasicNameValuePair("id_foto", id_foto.toString()));
+                //parametros.add(new BasicNameValuePair("id_usuario", id.toString()));
+                metodo.setEntity(new UrlEncodedFormEntity(parametros));
+                HttpResponse response = cliente.execute(metodo);
+                respuesta = EntityUtils.toString(response.getEntity());
+            } catch (ClientProtocolException e) {
+                Toast.makeText(FotoEntera.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+            } catch (IOException e) {
+                Toast.makeText(FotoEntera.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+            return respuesta;
+        }
+        @Override
+        protected void onPostExecute(String mensaje) {
+            /*dialog.hide();
+            dialog.dismiss();
+            dialog=null;*/
+            try{
+                /*JSONObject obj = new JSONObject(mensaje);
+
+                if(obj!=null) {
+                    if (obj.getInt("error") == 0) {
+                        if(like.getDrawable().getConstantState()==getResources().getDrawable(R.mipmap.ic_favorite_border_white_36dp).getConstantState()){
+                            like.setImageDrawable(getResources().getDrawable(R.mipmap.ic_like_36dp));
+                        }
+                        else if(like.getDrawable().getConstantState()==getResources().getDrawable(R.mipmap.ic_like_36dp).getConstantState()) {
+                            like.setImageDrawable(getResources().getDrawable(R.mipmap.ic_favorite_border_white_36dp));
+                        }
+
+                    } else {
+
+                        Toast.makeText(getApplicationContext(), mensaje, Toast.LENGTH_LONG).show();
+
+                    }
+                }*/
+                //Toast.makeText(getApplicationContext(),mensaje,Toast.LENGTH_LONG).show();
+                JSONArray array = new JSONArray(mensaje);
+                if(array!=null) {
+                    for (int i = 0; i < array.length(); i++) {
+                        Comentario com = new Comentario();
+                        com.setId_fotografia(array.getJSONObject(i).getInt("id_usuario"));
+                        com.setId_usuario(array.getJSONObject(i).getInt("id_fotografia"));
+                        com.setFecha(array.getJSONObject(i).getString("fecha"));
+                        com.setComent(array.getJSONObject(i).getString("comentario"));
+                        com.setNom_usu(array.getJSONObject(i).getString("nom_usuario"));
+                        com.setUrl_fotoUsu(array.getJSONObject(i).getString("foto_perfil"));
+                        comentarios.add(com);
+
+                    }
+
+                    AdaptadorComentarios ac = new AdaptadorComentarios(getApplicationContext(), comentarios);
+                    listaComentarios.setAdapter(ac);
+                    setListViewHeightBasedOnChildren(listaComentarios);
+                    //Toast.makeText(getApplicationContext(),"Llego aqui", Toast.LENGTH_LONG).show();
+                }
+                else{
+
+                }
+            }catch(Throwable t){
+                Toast.makeText(getApplicationContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        }
+
+    }
+    public static void setListViewHeightBasedOnChildren(ListView listView) {
+        ListAdapter listAdapter = listView.getAdapter();
+        if (listAdapter == null)
+            return;
+
+        int desiredWidth = View.MeasureSpec.makeMeasureSpec(listView.getWidth(), View.MeasureSpec.UNSPECIFIED);
+        int totalHeight = 0;
+        View view = null;
+        for (int i = 0; i < listAdapter.getCount(); i++) {
+            view = listAdapter.getView(i, view, listView);
+            if (i == 0)
+                view.setLayoutParams(new ViewGroup.LayoutParams(desiredWidth, ViewGroup.LayoutParams.WRAP_CONTENT));
+
+            view.measure(desiredWidth, View.MeasureSpec.UNSPECIFIED);
+            totalHeight += view.getMeasuredHeight();
+        }
+        ViewGroup.LayoutParams params = listView.getLayoutParams();
+        params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
+        listView.setLayoutParams(params);
+        listView.requestLayout();
     }
 }

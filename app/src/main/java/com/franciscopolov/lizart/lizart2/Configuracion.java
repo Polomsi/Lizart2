@@ -31,8 +31,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -46,7 +49,6 @@ import org.apache.http.util.EntityUtils;
 import org.json.JSONObject;
 
 public class Configuracion  extends ActionBarActivity{
-
     /*private String nomUsuario;
     private String password;
     private Button btnIniciaSesion;
@@ -57,9 +59,12 @@ public class Configuracion  extends ActionBarActivity{
     private Button btnActualizaPass;
     private SharedPreferences preferencias;
     private String pass;
-
+    private EditText etNombreUsuario;
+    private EditText etEmailNuevo;
+    private EditText etDescripcion;
+    private ImageView ivFoto;
     ProgressDialog dialog;
-
+    private ImageLoader imageLoader;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,6 +77,8 @@ public class Configuracion  extends ActionBarActivity{
                 switch (which){
                     case DialogInterface.BUTTON_POSITIVE:
                         preferencias.edit().clear().commit();
+                        Intent i = new Intent(Configuracion.this, IniciaSesion.class);
+                        startActivity(i);
                         finish();
                         break;
 
@@ -83,6 +90,15 @@ public class Configuracion  extends ActionBarActivity{
         };
         etPass = (EditText) findViewById(R.id.etPassNueva1);
         etPassRep = (EditText) findViewById(R.id.etPassNueva2);
+        etNombreUsuario = (EditText) findViewById(R.id.etNomUsuNuevo);
+        etEmailNuevo = (EditText) findViewById(R.id.etNuevoEmail);
+        etDescripcion = (EditText) findViewById(R.id.etNuevaDesc);
+        ivFoto = (ImageView) findViewById(R.id.ivFotoPerfilNueva);
+        Toast.makeText(getApplicationContext(), preferencias.getString("foto",""),Toast.LENGTH_SHORT);
+        //imageLoader.displayImage(preferencias.getString("foto","none"), ivFoto);
+        etNombreUsuario.setText(preferencias.getString("nomUsu", "none"));
+        etEmailNuevo.setText(preferencias.getString("email", "none"));
+        etDescripcion.setText(preferencias.getString("descripcion", "none"));
         btnActualizaPass = (Button) findViewById(R.id.btnActualizaPass);
         btnCierraSesion = (Button) findViewById(R.id.btnCerrarSesion);
         btnCierraSesion.setOnClickListener(new View.OnClickListener() {

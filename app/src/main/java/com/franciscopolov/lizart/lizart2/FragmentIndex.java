@@ -89,6 +89,7 @@ public class FragmentIndex extends Fragment {
                 intent.putExtra("id", array_imagenes.get(position).getId());
                 intent.putExtra("ISO", array_imagenes.get(position).getISO());
                 intent.putExtra("vel_obturacion", array_imagenes.get(position).getVel_obturacion());
+                intent.putExtra("apertura", array_imagenes.get(position).getApertura());
                 intent.putExtra("titulo", array_imagenes.get(position).getTitulo());
                 intent.putExtra("id_usuario", array_imagenes.get(position).getId_usuario());
                 intent.putExtra("fecha", array_imagenes.get(position).getFecha());
@@ -167,7 +168,7 @@ public class FragmentIndex extends Fragment {
             Integer id = (Integer) preferencias.getInt("id", 0);
             try {
                 //Toast.makeText(getActivity(), "ID: "+id.toString(), Toast.LENGTH_SHORT).show();
-                Log.d("ID", id.toString());
+
                 List<NameValuePair> parametros = new ArrayList<NameValuePair>();
                 parametros.add(new BasicNameValuePair("consulta", "consulta"));
                 parametros.add(new BasicNameValuePair("id", id.toString()));

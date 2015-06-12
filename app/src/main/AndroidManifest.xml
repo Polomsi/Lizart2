@@ -33,7 +33,8 @@
         <activity
             android:name=".Configuracion"
             android:label="@string/title_activity_configuracion"
-            android:parentActivityName=".Lizart" >
+            android:parentActivityName=".Lizart"
+            android:noHistory="true">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.franciscopolov.lizart.lizart2.Lizart" />
@@ -45,7 +46,8 @@
         <activity
             android:name=".FotoEntera"
             android:label="@string/title_activity_foto_entera"
-            android:parentActivityName=".Lizart" >
+            android:parentActivityName=".Lizart"
+            >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.franciscopolov.lizart.lizart2.Lizart" />

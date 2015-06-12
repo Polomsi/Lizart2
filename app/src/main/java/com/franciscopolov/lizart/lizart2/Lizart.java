@@ -42,17 +42,16 @@ public class Lizart extends MaterialNavigationDrawer {
 
         MaterialMenu menu = new MaterialMenu();
 
-        Intent i = new Intent(Lizart.this, Configuracion.class);
 
         // first section is loaded
         MaterialSection section1 = this.newSection("Inicio", this.getResources().getDrawable(R.drawable.ic_arrow_drop_down_white_24dp), new FragmentIndex(), false, menu);
         MaterialSection section2 = this.newSection("Subir fotografía", this.getResources().getDrawable(R.drawable.ic_arrow_drop_down_white_24dp), new FragmentIndex(), false, menu);
         MaterialSection section3 = this.newSection("Búsqueda de usuarios", this.getResources().getDrawable(R.drawable.ic_arrow_drop_down_white_24dp), new FragmentIndex(), false, menu);
-        MaterialSection section4 = this.newSection("Configuración", this.getResources().getDrawable(R.drawable.ic_arrow_drop_down_white_24dp), i, false, menu);
-
+        MaterialSection section4 = this.newSection("Configuración", this.getResources().getDrawable(R.drawable.ic_arrow_drop_down_white_24dp), new FragmentConfig(), true, menu);
         // create icon
 
         // create Head Item (Start index is section 2)
+
         MaterialHeadItem headItem = new MaterialHeadItem(this, "C HeadItem", "C Subtitle", R.drawable.ic_launcher, R.drawable.mat5, menu);
         // add head Item (menu will be loaded automatically)
         //MaterialHeadItem headItem1 = new MaterialHeadItem(this, "ITEM", "Subitem", R.drawable.ic_launcher, R.drawable.mat5, menu);

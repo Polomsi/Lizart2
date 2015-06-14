@@ -46,7 +46,7 @@ public class Lizart extends MaterialNavigationDrawer {
         // first section is loaded
         MaterialSection section1 = this.newSection("Inicio", this.getResources().getDrawable(R.drawable.ic_arrow_drop_down_white_24dp), new FragmentIndex(), false, menu);
         MaterialSection section2 = this.newSection("Subir fotografía", this.getResources().getDrawable(R.drawable.ic_arrow_drop_down_white_24dp), new FragmentIndex(), false, menu);
-        MaterialSection section3 = this.newSection("Búsqueda de usuarios", this.getResources().getDrawable(R.drawable.ic_arrow_drop_down_white_24dp), new FragmentIndex(), false, menu);
+        MaterialSection section3 = this.newSection("Búsqueda de usuarios", this.getResources().getDrawable(R.drawable.ic_arrow_drop_down_white_24dp), new FragmentBusqueda(), false, menu);
         MaterialSection section4 = this.newSection("Configuración", this.getResources().getDrawable(R.drawable.ic_arrow_drop_down_white_24dp), new FragmentConfig(), true, menu);
         // create icon
 

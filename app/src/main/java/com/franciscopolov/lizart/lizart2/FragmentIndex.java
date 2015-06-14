@@ -211,7 +211,7 @@ public class FragmentIndex extends Fragment {
                     Toast.makeText(getActivity(), "Ocurrió un error", Toast.LENGTH_SHORT).show();
                 }
             }catch(Throwable t){
-                Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         }
 

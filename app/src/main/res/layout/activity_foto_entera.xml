@@ -65,7 +65,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Ap. Diafragma"
+                        android:text="Punto F"
                         android:id="@+id/textView9"
                         android:layout_gravity="center_horizontal"
                         android:layout_column="2"
@@ -109,6 +109,10 @@
                         android:id="@+id/apertura"
                         android:layout_gravity="center_horizontal" />
                 </TableRow>
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="1dp"
+                    android:background="@android:color/darker_gray"/>
             </TableLayout>
 
         </LinearLayout>
@@ -116,15 +120,80 @@
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical|center_horizontal">
 
-            <ImageButton
-                android:layout_width="36dp"
-                android:layout_height="36dp"
-                android:id="@+id/imageButton"
-                android:layout_below="@+id/imagen"
-                android:background="@null"
-                />
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="100dp">
+
+                <ImageButton
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:id="@+id/imageButton"
+                    android:layout_below="@+id/imagen"
+                    android:background="@null" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/numeroMG"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="6dp" />
+            </LinearLayout>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/btn_comentar"
+                android:layout_alignParentRight="true"
+                android:id="@+id/btnComentar"
+                android:layout_gravity="center_horizontal" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:background="@android:color/darker_gray"/>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:id="@+id/linearComentarios"
+                    android:visibility="invisible"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="20dp"
+                    android:layout_marginTop="10dp">
+
+                    <EditText
+                        android:layout_width="225dp"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/textoComentario"
+                        android:layout_marginLeft="10dp" />
+
+                    <Button
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/btnEnviar"
+                        android:id="@+id/btnEnviaComentario"
+                        android:textSize="12dp"
+                        android:layout_marginRight="10dp" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
         </LinearLayout>
 
         <LinearLayout
@@ -133,7 +202,7 @@
             android:layout_height="wrap_content">
 
             <ListView
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/listaComentarios"
                 android:fastScrollEnabled="false"

@@ -15,7 +15,7 @@
         <ImageView
             android:layout_width="55dp"
             android:layout_height="55dp"
-            android:id="@+id/fotoUsuComenta"
+            android:id="@+id/fotoUsuBusqueda"
             android:background="@color/primary"
             android:layout_marginTop="20dp"
             android:layout_marginLeft="5dp"
@@ -32,7 +32,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/nombreUsuCom"
+                android:id="@+id/nombreUsuBusqueda"
                 android:text="Nombre"
                 android:textStyle="bold"
                 android:textSize="18dip"
@@ -41,8 +41,8 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/comentarioUsu"
-                android:text="Comentario"
+                android:id="@+id/descripcionUsuBusqueda"
+                android:text="Descripción"
                 android:textSize="16dip"
                 android:textStyle="normal" />
         </LinearLayout>

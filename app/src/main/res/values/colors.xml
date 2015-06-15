@@ -3,4 +3,6 @@
     <color name="primary">#607D8B</color>
     <color name="primaryDark">#455A64</color>
     <color name="accent">#00BCD4</color>
+    <color name="seguir">#FF5152D8</color>
+    <color name="dejar_seguir">#CC3232</color>
 </resources>

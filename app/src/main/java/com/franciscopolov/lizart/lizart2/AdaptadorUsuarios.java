@@ -22,22 +22,22 @@ public class AdaptadorUsuarios extends ArrayAdapter<Usuario> {
     }
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        // Get the data item for this position
+        // Devuelve los datos para la posición actual
         Usuario user = getItem(position);
-        // Check if an existing view is being reused, otherwise inflate the view
+        // Se comprueba si ya existe una vista de este tipo, si no la hay, se crea, asignandole la vista de la lista de usuarios
         if (convertView == null) {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_usuarios, parent, false);
         }
-        // Lookup view for data population
+        // Primero asignamos a las variables correspondientes sus ids
         TextView tvNombre = (TextView) convertView.findViewById(R.id.nombreUsuBusqueda);
         TextView tvComentario = (TextView) convertView.findViewById(R.id.descripcionUsuBusqueda);
         ImageView ivFoto = (ImageView) convertView.findViewById(R.id.fotoUsuBusqueda);
-        // Populate the data into the template view using the data object
+        // Una vez asignados, poblamos esas variables
         tvNombre.setText(user.getNombre());
         tvComentario.setText(user.getDescripcion());
         imageLoader= ImageLoader.getInstance();
         imageLoader.displayImage(user.getFoto_perfil(), ivFoto);
-        // Return the completed view to render on screen
+        // Se devuelve la vista una vez completada la insercion de datos
         return convertView;
     }
 }

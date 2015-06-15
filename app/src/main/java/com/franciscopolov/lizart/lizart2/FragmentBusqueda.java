@@ -1,6 +1,7 @@
 package com.franciscopolov.lizart.lizart2;
 
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -11,6 +12,7 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -74,7 +76,23 @@ public class FragmentBusqueda extends Fragment {
 
             }
         });
-
+        listaUsuarios.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                String nombre = usuariosBusqueda.get(i).getNombre();
+                String email = usuariosBusqueda.get(i).getEmail();
+                String foto_perfil = usuariosBusqueda.get(i).getFoto_perfil();
+                Integer id = usuariosBusqueda.get(i).getId();
+                String descripcion = usuariosBusqueda.get(i).getDescripcion();
+                Intent intent = new Intent(getActivity(), UsuarioEntero.class);
+                intent.putExtra("nombre", nombre);
+                intent.putExtra("email", email);
+                intent.putExtra("foto_perfil", foto_perfil);
+                intent.putExtra("id", id);
+                intent.putExtra("descripcion", descripcion);
+                startActivity(intent);
+            }
+        });
         return v;
     }
     private class hebraConsultaUsuarios extends AsyncTask<Void, Void, String> {
@@ -84,7 +102,6 @@ public class FragmentBusqueda extends Fragment {
             HttpClient cliente = new DefaultHttpClient();
             HttpPost metodo = new HttpPost("http://lizart.franciscopolov.com/json/usuario.php");
             String respuesta = null;
-            //Integer id_foto = (Integer) foto.getId();
             try {
                 List<NameValuePair> parametros = new ArrayList<NameValuePair>();
                 parametros.add(new BasicNameValuePair("buscar", "buscar"));

@@ -2,11 +2,23 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.franciscopolov.lizart.lizart2" >
 
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
+
+    <permission
+        android:name="com.franciscopolov.lizart.lizart2.permission.C2D_MESSAGE"
+        android:protectionLevel="signature" />
+
+    <uses-permission android:name="com.franciscopolov.lizart.lizart2.permission.C2D_MESSAGE" />
 
     <application
+        android:name=".IniciaParse"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -25,6 +37,9 @@
             android:name=".IniciaSesion"
             android:label="@string/title_activity_inicia_sesion"
             android:noHistory="true" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.franciscopolov.lizart.lizart2.Eleccion" />
         </activity>
         <activity
             android:name=".Lizart"
@@ -60,6 +75,51 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.franciscopolov.lizart.lizart2.Lizart" />
+        </activity>
+        <!-- :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: -->
+        <service android:name="com.parse.PushService" />
+
+        <receiver android:name="com.parse.ParseBroadcastReceiver" >
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.USER_PRESENT" />
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name="com.parse.ParsePushBroadcastReceiver"
+            android:exported="false" >
+            <intent-filter>
+                <action android:name="com.parse.push.intent.RECEIVE" />
+                <action android:name="com.parse.push.intent.DELETE" />
+                <action android:name="com.parse.push.intent.OPEN" />
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name="com.parse.GcmBroadcastReceiver"
+            android:permission="com.google.android.c2dm.permission.SEND" >
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+                <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
+
+                <category android:name="com.franciscopolov.lizart.lizart2" />
+            </intent-filter>
+        </receiver>
+        <!-- :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: -->
+        <meta-data
+            android:name="com.parse.push.notification_icon"
+            android:resource="@drawable/ic_launcher" />
+
+        <activity
+            android:name=".Eleccion"
+            android:label="@string/title_activity_eleccion" >
+        </activity>
+        <activity
+            android:name=".Registro"
+            android:label="@string/title_activity_registro"
+            android:parentActivityName=".Eleccion" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.franciscopolov.lizart.lizart2.Eleccion" />
         </activity>
     </application>
 

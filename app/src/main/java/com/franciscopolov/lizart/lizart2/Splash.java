@@ -7,6 +7,12 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.parse.Parse;
+import com.parse.ParseException;
+import com.parse.ParseInstallation;
+import com.parse.ParsePush;
+import com.parse.SaveCallback;
+
 
 public class Splash extends ActionBarActivity {
 
@@ -15,7 +21,8 @@ public class Splash extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
         setToolbar();
-        Intent intent = new Intent(this, IniciaSesion.class);
+
+        Intent intent = new Intent(this, Eleccion.class);
         startActivity(intent);
     }
 

@@ -26,6 +26,7 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
+import com.parse.ParseUser;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -54,6 +55,7 @@ public class FragmentIndex extends Fragment {
     GridView gridview;
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+
         ImageLoaderConfiguration defaultConfiguration
                 = new ImageLoaderConfiguration.Builder(getActivity())
                 .threadPriority(Thread.NORM_PRIORITY - 2)
@@ -81,6 +83,9 @@ public class FragmentIndex extends Fragment {
         gridview = (GridView) v.findViewById(R.id.gridview);
         hebraFotos fotos = new hebraFotos();
         fotos.execute();
+
+        //Toast.makeText(getActivity(),ParseUser.getCurrentUser().getUsername(),Toast.LENGTH_SHORT).show();
+
         gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

@@ -33,4 +33,9 @@
     <string name="tvFotos">Fotografías</string>
     <string name="tvSiguiendo">Siguiendo</string>
     <string name="tvSeguidores">Seguidores</string>
+    <string name="title_activity_eleccion">Eleccion</string>
+    <string name="titulo">Lizart</string>
+    <string name="descripcion">Tu red social de fotografía artística</string>
+    <string name="title_activity_registro">Registro</string>
+    <string name="registro">Registrar</string>
 </resources>

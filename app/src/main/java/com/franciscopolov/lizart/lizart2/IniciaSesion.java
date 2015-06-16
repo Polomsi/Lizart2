@@ -19,6 +19,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.parse.LogInCallback;
+import com.parse.ParseException;
+import com.parse.ParseInstallation;
+import com.parse.ParseUser;
+
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.ClientProtocolException;
@@ -55,6 +60,10 @@ public class IniciaSesion extends ActionBarActivity {
             btnIniciaSesion = (Button) findViewById(R.id.iniciasesion);
             etNombre = (EditText) findViewById(R.id.nomUsu);
             etPass = (EditText) findViewById(R.id.passUsu);
+
+        Bundle extras = getIntent().getExtras();
+        etNombre.setText(extras.getString("nombre"));
+        etPass.setText(extras.getString("pass"));
             btnIniciaSesion.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -79,6 +88,7 @@ public class IniciaSesion extends ActionBarActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.miBarra);
         toolbar.setTitle("Inicio de sesión");
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 /*
     @Override
@@ -147,8 +157,22 @@ public class IniciaSesion extends ActionBarActivity {
                         editor.putString("descripcion", obj.getString("descripcion"));
                         editor.putString("foto", obj.getString("foto_perfil"));
                         editor.commit();
-                        Intent intent = new Intent(IniciaSesion.this, Lizart.class);
-                        startActivity(intent);
+                        ParseUser.logInInBackground(obj.getString("nom_usuario"), obj.getString("password"), new LogInCallback() {
+                            @Override
+                            public void done(ParseUser parseUser, ParseException e) {
+                                if (parseUser != null) {
+                                    ParseInstallation installation = ParseInstallation.getCurrentInstallation();
+                                    installation.put("Username", parseUser.getUsername());
+                                    installation.saveInBackground();
+                                    Intent intent = new Intent(IniciaSesion.this, Lizart.class);
+                                    startActivity(intent);
+                                }
+                                else{
+                                    Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
+
                     } else {
                         Toast.makeText(IniciaSesion.this, obj.getString("aclaracion"), Toast.LENGTH_SHORT).show();
                     }

@@ -23,6 +23,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -36,6 +37,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.parse.ParseInstallation;
+import com.parse.ParseUser;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -76,6 +79,9 @@ public class Configuracion  extends ActionBarActivity{
             public void onClick(DialogInterface dialog, int which) {
                 switch (which){
                     case DialogInterface.BUTTON_POSITIVE:
+                        ParseInstallation parseInstallation = ParseInstallation.getCurrentInstallation();
+                        parseInstallation.put("username", "");
+                        ParseUser.logOut();
                         preferencias.edit().clear().commit();
                         Intent i = new Intent(Configuracion.this, IniciaSesion.class);
                         startActivity(i);
@@ -94,8 +100,9 @@ public class Configuracion  extends ActionBarActivity{
         etEmailNuevo = (EditText) findViewById(R.id.etNuevoEmail);
         etDescripcion = (EditText) findViewById(R.id.etNuevaDesc);
         ivFoto = (ImageView) findViewById(R.id.ivFotoPerfilNueva);
-        Toast.makeText(getApplicationContext(), preferencias.getString("foto",""),Toast.LENGTH_SHORT);
-        //imageLoader.displayImage(preferencias.getString("foto","none"), ivFoto);
+        Toast.makeText(getApplicationContext(), preferencias.getString("foto",null),Toast.LENGTH_SHORT).show();
+        imageLoader=ImageLoader.getInstance();
+        imageLoader.displayImage(preferencias.getString("foto", "none"), ivFoto);
         etNombreUsuario.setText(preferencias.getString("nomUsu", "none"));
         etEmailNuevo.setText(preferencias.getString("email", "none"));
         etDescripcion.setText(preferencias.getString("descripcion", "none"));

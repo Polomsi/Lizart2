@@ -81,9 +81,13 @@ public class Configuracion  extends ActionBarActivity{
                     case DialogInterface.BUTTON_POSITIVE:
                         ParseInstallation parseInstallation = ParseInstallation.getCurrentInstallation();
                         parseInstallation.put("username", "");
+                        parseInstallation.saveInBackground();
                         ParseUser.logOut();
                         preferencias.edit().clear().commit();
                         Intent i = new Intent(Configuracion.this, IniciaSesion.class);
+                        i.putExtra("nombre","");
+                        i.putExtra("pass", "");
+                        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(i);
                         finish();
                         break;

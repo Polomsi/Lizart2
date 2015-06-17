@@ -162,7 +162,7 @@ public class IniciaSesion extends ActionBarActivity {
                             public void done(ParseUser parseUser, ParseException e) {
                                 if (parseUser != null) {
                                     ParseInstallation installation = ParseInstallation.getCurrentInstallation();
-                                    installation.put("Username", parseUser.getUsername());
+                                    installation.put("username", parseUser.getUsername());
                                     installation.saveInBackground();
                                     Intent intent = new Intent(IniciaSesion.this, Lizart.class);
                                     startActivity(intent);
